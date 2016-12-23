@@ -1,10 +1,12 @@
-# Insert using Select  - Insert in#to employee (department_id, department_name) select department_id, department_name from departments;
+# Insert using Select  - Insert into employee (department_id, department_name) select department_id, department_name from departments;
+
+# select user(); - Command to know the current user working in. 
+  select database(); - Command to know the current database working in.
+
 
 *****************************************************************************************************************************************
 # Scenario - Create a new user (problem_dba) and new a database(problem_db). 
 Copy a table(employee) contents from one database(retail_db) in a user(retail_dba) to the new database in the new user.
-
-select user(); - Command to know the current user working in. 
 
 Scripting - 
 
