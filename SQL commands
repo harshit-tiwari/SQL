@@ -1,3 +1,48 @@
-Insert using Select 
+# Insert using Select  - Insert in#to employee (department_id, department_name) select department_id, department_name from departments;
 
-Insert into employee (department_id, department_name) select department_id, department_name from departments;
+*****************************************************************************************************************************************
+# Scenario - Create a new user (problem_dba) and new a database(problem_db). 
+Copy a table(employee) contents from one database(retail_db) in a user(retail_dba) to the new database in the new user.
+
+select user(); - Command to know the current user working in. 
+
+Scripting - 
+
+Import table employee from mysql to a location in HDFS
+
+> sqoop import \
+> --connect jdbc:mysql://quickstart.cloudera:3306/retail_db \
+> --username retail_dba \
+> --password cloudera \
+> -m 1 \
+> --table employee \
+> --target-dir /user/cloudera/new
+> --outdir java_files
+
+The table contents are now available in /user/cloudera/new
+
+Now create the new user, the new database within the new user, grant the new user all the privilidges. Then create new table and export
+the data from /user/cloudera/new to the new table
+> Drop user if exists old_dba;
+> CREATE USER 'problem_dba'@'localhost' IDENTIFIED BY 'cloudera';
+> GRANT ALL ON problem_db.* TO 'problem_dba'@'localhost';
+                (new DB)           (user)
+          (Don't use command - GRANT ALL ON *.* TO 'problem_dba'@'localhost'; 
+          It will grant permissions to all the existing databses on the new DB.)
+          
+> use problem_db;
+> Create table employee(
+> department_id int primary key,
+> department_name varchar(100));
+
+> sqoop export \
+> --connect jdbc:mysql://quickstart.cloudera:3306/problem_db \
+> --username problem_dba \
+> --password cloudera \
+> - m 1 \
+> --table employee \
+> --export-dir /user/cloudera/new \
+> --batch \
+> outdir java_files
+
+**************************************************************************************************************************************
