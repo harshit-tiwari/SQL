@@ -1,0 +1,133 @@
+****************************************************************************************************************************************
+Joins in SQL
+Client - MySQL
+
+Tables - 
+
+1. first
++----+----------+
+| id | name     |
++----+----------+
+|  1 | harshit  |
+|  2 | archit   |
+|  3 | jon      |
+|  4 | bran     |
+|  5 | robert   |
+|  6 | daenerys |
+|  9 | cersei   |
+| 11 | tyrion   |
++----+----------+
+
+2. second
++----+-----------+
+| id | name      |
++----+-----------+
+|  1 | tiwari    |
+|  2 | tiwari    |
+|  3 | snow      |
+|  4 | stark     |
+|  5 | baratheon |
+|  7 | drogo     |
+|  8 | clegane   |
+| 10 | tyrell    |
++----+-----------+
+
+3. third
++----+------+
+| id | name |
++----+------+
+|  2 | name |
+|  3 | name |
+|  4 | name |
++----+------+
+_______________________________________________________________________________________________________________________________________
+Inner Join - It displays only those rows which are matching in both the tables
+
+select * from
+first
+inner join second
+on first.id = second.id;
+
++----+---------+----+-----------+
+| id | name    | id | name      |
++----+---------+----+-----------+
+|  1 | harshit |  1 | tiwari    |
+|  2 | archit  |  2 | tiwari    |
+|  3 | jon     |  3 | snow      |
+|  4 | bran    |  4 | stark     |
+|  5 | robert  |  5 | baratheon |
++----+---------+----+-----------+
+_______________________________________________________________________________________________________________________________________
+Left Outer Join - It displays all the rows of the left table and those rows from the right table which are matching the left table.
+
+select * from
+first
+left outer join second
+on first.id = second.id;
+
++----+----------+------+-----------+
+| id | name     | id   | name      |
++----+----------+------+-----------+
+|  1 | harshit  |    1 | tiwari    |
+|  2 | archit   |    2 | tiwari    |
+|  3 | jon      |    3 | snow      |
+|  4 | bran     |    4 | stark     |
+|  5 | robert   |    5 | baratheon |
+|  6 | daenerys | NULL | NULL      |
+|  9 | cersei   | NULL | NULL      |
+| 11 | tyrion   | NULL | NULL      |
++----+----------+------+-----------+
+
+Left outer join first displays the matching fields in both the tables, then the non matching fields of left table with NULL values 
+in non matching fields in right table.
+Example - 
+
+select * from
+first
+left outer join third
+on first.id = third.id;
+
+
++----+----------+------+------+
+| id | name     | id   | name |
++----+----------+------+------+
+|  2 | archit   |    2 | name |
+|  3 | jon      |    3 | name |
+|  4 | bran     |    4 | name |
+|  1 | harshit  | NULL | NULL |
+|  5 | robert   | NULL | NULL |
+|  6 | daenerys | NULL | NULL |
+|  9 | cersei   | NULL | NULL |
+| 11 | tyrion   | NULL | NULL |
++----+----------+------+------+
+_______________________________________________________________________________________________________________________________________
+
+Right Outer Join - It displays all the rows of the right table and those rows from the left table which are matching the right table.
+
+
+
+
+Full outer Join in MySQL is not supported
+
+select first.id, second.id
+from first 
+full outer join second
+on first.id = second.id;
+
+This statement gives an error like this
+
+Error 1064(42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version
+on 'first.id = second.id' at line 3
+
+This is beacuse Full Outer join in not supported in MySQL.
+
+This can be substituted by
+
+select * from first
+left outer join second
+on first.id = second.id
+union all
+select * from first
+right outer join second
+on first.id = second.id;
+*****************************************************************************************************************************************
