@@ -176,6 +176,7 @@ on first.id = third.id;
 _______________________________________________________________________________________________________________________________________
 
 Full Outer Join - It displays the combination of Left Outer Join and Right Outer Join.
+                  It first displays the left outer join results and then the right outer join results.
 
 select * 
 from first
@@ -187,7 +188,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 Error 1064(42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version
 on 'first.id = second.id' at line 3
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-This is beacuse Full Outer join in not supported in MySQL. However, it is supprted in other SQLs.
+This is because Full Outer join in not supported in MySQL. However, it is supprted in other SQLs.
 
 This can be substituted by
 
@@ -198,6 +199,54 @@ union all
 select * from first
 right outer join second
 on first.id = second.id;
+
++------+----------+------+-----------+
+| id   | name     | id   | name      |
++------+----------+------+-----------+
+|    1 | harshit  |    1 | tiwari    |--------------------------]
+|    2 | archit   |    2 | tiwari    |                          ]
+|    3 | jon      |    3 | snow      |                          ]
+|    4 | bran     |    4 | stark     |                          ]-------------LEFT OUTER JOIN
+|    5 | robert   |    5 | baratheon |                          ]   
+|    6 | daenerys | NULL | NULL      |                          ]
+|    9 | cersei   | NULL | NULL      |                          ]
+|   11 | tyrion   | NULL | NULL      |--------------------------]
+|    1 | harshit  |    1 | tiwari    |--------------------------)
+|    2 | archit   |    2 | tiwari    |                          )
+|    3 | jon      |    3 | snow      |                          )
+|    4 | bran     |    4 | stark     |                          )--------------RIGHT OUTER JOIN
+|    5 | robert   |    5 | baratheon |                          )
+| NULL | NULL     |    7 | drogo     |                          )  
+| NULL | NULL     |    8 | clegane   |                          )
+| NULL | NULL     |   10 | tyrell    |--------------------------)            
++------+----------+------+-----------+
+
+
+#
+select * from first
+left outer join third
+on first.id = third.id
+union all
+select * from first
+right outer join third
+on first.id = third.id;
+
++------+----------+------+------+
+| id   | name     | id   | name |
++------+----------+------+------+
+|    2 | archit   |    2 | name |---------------------|
+|    3 | jon      |    3 | name |                     |
+|    4 | bran     |    4 | name |                     |
+|    1 | harshit  | NULL | NULL |                     |-----------LEFT OUTER JOIN
+|    5 | robert   | NULL | NULL |                     |
+|    6 | daenerys | NULL | NULL |                     |
+|    9 | cersei   | NULL | NULL |                     |
+|   11 | tyrion   | NULL | NULL |---------------------|
+|    2 | archit   |    2 | name |---------------------%
+|    3 | jon      |    3 | name |                     %-----------RIGHT OUTER JOIN. Here the right table "THIRD" has only three rows
+|    4 | bran     |    4 | name |---------------------%           hence there are no non matching rows in left table for right join             
++------+----------+------+------+
+
 
 
 
