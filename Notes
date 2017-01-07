@@ -79,7 +79,7 @@ on first.id = second.id;
 +----+----------+------+-----------+
 
 Left outer join first displays the matching fields in both the tables, then the non matching fields of left table with NULL values 
-in non matching fields in right table.
+in non matching fields of right table.
 Example - 
 
 select * from
@@ -100,26 +100,94 @@ on first.id = third.id;
 |  9 | cersei   | NULL | NULL |
 | 11 | tyrion   | NULL | NULL |
 +----+----------+------+------+
+
+
+#
+select *
+from third
+left outer join first
+on first.id = third.id;
+
++----+------+------+--------+
+| id | name | id   | name   |
++----+------+------+--------+
+|  2 | name |    2 | archit |
+|  3 | name |    3 | jon    |                    This is because there are only three values in table "third". Hence there are no
+|  4 | name |    4 | bran   |                    non matching values from the right table.
++----+------+------+--------+
 _______________________________________________________________________________________________________________________________________
 
 Right Outer Join - It displays all the rows of the right table and those rows from the left table which are matching the right table.
 
+select *
+from first
+right outer join second
+on first.id = second.id;
+
++------+---------+----+-----------+
+| id   | name    | id | name      |
++------+---------+----+-----------+
+|    1 | harshit |  1 | tiwari    |
+|    2 | archit  |  2 | tiwari    |
+|    3 | jon     |  3 | snow      |
+|    4 | bran    |  4 | stark     |
+|    5 | robert  |  5 | baratheon |
+| NULL | NULL    |  7 | drogo     |
+| NULL | NULL    |  8 | clegane   |
+| NULL | NULL    | 10 | tyrell    |
++------+---------+----+-----------+
 
 
+Right outer join first displays the matching fields in both the tables, then the non matching fields of right table with NULL values 
+in non matching fields of left table.
+Example - 
 
-Full outer Join in MySQL is not supported
+select *
+from third
+right outer join first
+on first.id = third.id;
 
-select first.id, second.id
-from first 
++------+------+----+----------+
+| id   | name | id | name     |
++------+------+----+----------+
+|    2 | name |  2 | archit   |
+|    3 | name |  3 | jon      |
+|    4 | name |  4 | bran     |
+| NULL | NULL |  1 | harshit  |
+| NULL | NULL |  5 | robert   |
+| NULL | NULL |  6 | daenerys |
+| NULL | NULL |  9 | cersei   |
+| NULL | NULL | 11 | tyrion   |
++------+------+----+----------+
+
+#
+select *
+from first
+right outer join third
+on first.id = third.id;
+
++------+--------+----+------+
+| id   | name   | id | name |
++------+--------+----+------+
+|    2 | archit |  2 | name |
+|    3 | jon    |  3 | name |                   This is because there are only three values in table "third". Hence there are no
+|    4 | bran   |  4 | name |                   non matching values from the left table.
++------+--------+----+------+
+_______________________________________________________________________________________________________________________________________
+
+Full Outer Join - It displays the combination of Left Outer Join and Right Outer Join.
+
+select * 
+from first
 full outer join second
 on first.id = second.id;
 
-This statement gives an error like this
-
+But when we run this statement in MySQL, we get error like this :
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 Error 1064(42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version
 on 'first.id = second.id' at line 3
-
-This is beacuse Full Outer join in not supported in MySQL.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+This is beacuse Full Outer join in not supported in MySQL. However, it is supprted in other SQLs.
 
 This can be substituted by
 
@@ -130,4 +198,7 @@ union all
 select * from first
 right outer join second
 on first.id = second.id;
+
+
+
 *****************************************************************************************************************************************
