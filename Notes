@@ -223,6 +223,36 @@ on first.id = second.id;
 
 
 #
+select * from second
+left outer join first
+on first.id = second.id
+union all
+select * from second
+right outer join first
+on first.id = second.id;
+
++------+-----------+------+----------+
+| id   | name      | id   | name     |
++------+-----------+------+----------+
+|    1 | tiwari    |    1 | harshit  |
+|    2 | tiwari    |    2 | archit   |                        
+|    3 | snow      |    3 | jon      |        
+|    4 | stark     |    4 | bran     |
+|    5 | baratheon |    5 | robert   |
+|    7 | drogo     | NULL | NULL     |
+|    8 | clegane   | NULL | NULL     |
+|   10 | tyrell    | NULL | NULL     |
+|    1 | tiwari    |    1 | harshit  |
+|    2 | tiwari    |    2 | archit   |
+|    3 | snow      |    3 | jon      |
+|    4 | stark     |    4 | bran     |
+|    5 | baratheon |    5 | robert   |
+| NULL | NULL      |    6 | daenerys |
+| NULL | NULL      |    9 | cersei   |
+| NULL | NULL      |   11 | tyrion   |
++------+-----------+------+----------+
+
+#
 select * from first
 left outer join third
 on first.id = third.id
@@ -248,6 +278,29 @@ on first.id = third.id;
 +------+----------+------+------+
 
 
+#
+select * from third
+left outer join first
+on first.id = third.id
+union all
+select * from third
+right outer join first
+on first.id = third.id;
 
++------+------+------+----------+
+| id   | name | id   | name     |
++------+------+------+----------+
+|    2 | name |    2 | archit   |-----------------|
+|    3 | name |    3 | jon      |                 |------------LEFT OUTER JOIN. Here the Left table "THIRD" has only three rows.
+|    4 | name |    4 | bran     |-----------------|            Hence there are no non matching rows in the right table for left join.
+|    2 | name |    2 | archit   |-----------------%
+|    3 | name |    3 | jon      |                 %
+|    4 | name |    4 | bran     |                 %
+| NULL | NULL |    1 | harshit  |                 %
+| NULL | NULL |    5 | robert   |                 %------------RIGHT OUTER JOIN   
+| NULL | NULL |    6 | daenerys |                 %
+| NULL | NULL |    9 | cersei   |                 %
+| NULL | NULL |   11 | tyrion   |-----------------%
++------+------+------+----------+
 
 *****************************************************************************************************************************************
