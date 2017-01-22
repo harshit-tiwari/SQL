@@ -311,6 +311,24 @@ where length(name) = max(length(name)) or length(name) = min(length(name))
 order by name
 group by length(name);
 
+
+select name, length(name)
+from first
+where length(name) = (select max(length(name)) from first) or
+length(name) = (select min(length(name)) from first)
+order by name;
+
+
+(select CITY, length(CITY)
+from STATION
+order by length(CITY), CITY
+limit 1)
+union
+(select CITY, length(CITY)
+from STATION
+order by length(CITY) desc , CITY
+limit 1);
+
 ****************************************************************************************************************************************
 
 To query words starting with vowels
@@ -331,3 +349,6 @@ where substring(lower(name),1,1) in ('a','e','i','o','u') and substring(lower(na
 To query words which do not start with vowels and do not end with vowels
 select distinct(CITY) from STATION
 where substring(lower(CITY),1,1) not in ('a','e','i','o','u') and substring(lower(CITY),-1,1) not in ('a','e','i','o','u');
+
+
+
