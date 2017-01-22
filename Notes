@@ -329,6 +329,13 @@ from STATION
 order by length(CITY) desc , CITY
 limit 1);
 
+
+
+select Name from STUDENTS 
+where Marks > 75
+order by substring(lower(name), -3), ID asc;
+
+
 ****************************************************************************************************************************************
 
 To query words starting with vowels
