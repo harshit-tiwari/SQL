@@ -323,4 +323,7 @@ To query words ending with vowels
 select name from first
 where substring(lower(name),-1,1) in ('a','e','i','o','u');
 
+To query words starting and ending with vowels
 
+select name from STATION 
+where substring(lower(name),1,1) in ('a','e','i','o','u') and substring(lower(name),-1,1) in ('a','e','i','o','u');
