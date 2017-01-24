@@ -1,0 +1,20 @@
+A     B     C
+20    20    20
+14    16    12
+.
+.
+.
+.
+.
+
+
+
+select 
+(case 
+ when A = B and B = C and A = C  then 'Equilateral'
+ when (A = B and B != C and A != C) or (B = C and A != B and A != C)  or (A = C and B != C and A != B)  then 'Isoscelos'
+ when A != B and B != C and A != C and (A + B) > C then 'Scalene'
+ when (A + B) < C then 'Not A Triangle'
+ END
+)
+from TRIANGLES;
